@@ -1,5 +1,5 @@
 package product;
 
 public interface Discount {
-    double getRealMoney();
+    double getRealMoney(Material material);
 }

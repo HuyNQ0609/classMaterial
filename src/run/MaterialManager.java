@@ -1,55 +1,93 @@
 package run;
 
 import product.CrispyFlour;
+import product.Discount;
 import product.Material;
 import product.Meat;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Scanner;
+import java.util.*;
 
-public class MaterialManager {
-    Material[] materials;
-    Scanner input = new Scanner(System.in);
+public class MaterialManager implements Discount {
+    List<Material> materials;
 
-    public void display() {
-        materials = new Material[10];
-        materials[0] = new CrispyFlour("er1", "rer1", LocalDate.now().plusMonths(5), 149, 26);
-        materials[1] = new Meat("er2", "rer2", LocalDate.now().plusDays(7), 150, 3.5);
-        materials[2] = new CrispyFlour("er3", "rer3", LocalDate.now().plusMonths(4), 151, 27);
-        materials[3] = new Meat("er4", "rer4", LocalDate.now().plusDays(3), 152, 3.6);
-        materials[4] = new CrispyFlour("er5", "rer5", LocalDate.now().plusMonths(2), 153, 28);
-        materials[5] = new Meat("er6", "rer6", LocalDate.now().plusDays(4), 154, 3.7);
-        materials[6] = new CrispyFlour("er7", "rer7", LocalDate.now().plusMonths(6), 155, 29);
-        materials[7] = new Meat("er8", "rer8", LocalDate.now().plusDays(2), 156, 3.8);
-        materials[8] = new CrispyFlour("er9", "rer9", LocalDate.now().plusMonths(3), 157, 30);
-        materials[9] = new Meat("er10", "rer10", LocalDate.now().plusDays(5), 158, 3.9);
-//        ArrayList<Material> lists = new ArrayList<>(Arrays.asList(materials));
+    public MaterialManager() {
+        materials = new ArrayList<>();
+        materials.add(new CrispyFlour("No.1", "name1",
+                LocalDate.now().plusMonths(5), 150, 25));
+        materials.add(new Meat("No.2", "name2",
+                LocalDate.now().plusDays(-1), 160, 2));
+        materials.add(new CrispyFlour("No.3", "name3",
+                LocalDate.now().plusMonths(7), 170, 24));
+        materials.add(new Meat("No.4", "name4",
+                LocalDate.now().plusDays(-2), 180, 2.5));
+        materials.add(new CrispyFlour("No.5", "name5",
+                LocalDate.now().plusMonths(1), 190, 23));
+        materials.add(new Meat("No.6", "name6",
+                LocalDate.now().plusDays(-3), 200, 3));
+        materials.add(new CrispyFlour("No.7", "name7",
+                LocalDate.now().plusMonths(1), 210, 22));
+        materials.add(new Meat("No.8", "name8",
+                LocalDate.now().plusDays(-5), 220, 3.5));
+        materials.add(new CrispyFlour("No.9", "name9",
+                LocalDate.now().plusMonths(1), 230, 21));
+        materials.add(new Meat("No.10", "name10",
+                LocalDate.now().plusDays(-1), 240, 4));
+    }
+    public void print() {
         for (Material material : materials) {
             System.out.println(material);
         }
     }
 
-    public void menu() {
-        System.out.println("The price after lowing down: " + cheapenPriceMeat(meterials, ));
-    }
-
-    public void deleteElements(ArrayList<Material> lists) {
-
-    }
-    public double cheapenPriceMeat(Material[] materials, int priceOfSale) {
-        for (Material material : materials) {
-            if (material instanceof Meat) {
-                if (material.getManufacturingDate().compareTo(material.getExpiryDate()) <= 5) {
-                    priceOfSale = priceOfSale * (100 - 30) / 100;
-                }
-                else {
-                    priceOfSale = priceOfSale * (100 - 10) / 100;
-                }
+    public void deleteElements(String id) {
+        for (int i = 0; i < materials.size(); i++) {
+            if (id.equals(materials.get(i).getId())) {
+                materials.remove(i);
             }
         }
-        return priceOfSale;
     }
+    public void addElement(Material material) {
+        materials.add(material);
+    }
+
+    public void update(Material material1, int index) {
+        materials.add(index, material1);
+    }
+
+    public List<Material> getMaterials() {
+        return materials;
+    }
+
+    @Override
+    public double getRealMoney(Material material) {
+        double priceAfterSale = 0;
+        if (material instanceof Meat) {
+            int dueDate = material.getExpiryDate().getDayOfMonth() - LocalDate.now().getDayOfMonth();
+            if (dueDate <= 5) {
+                System.out.println("Sale 30%");
+                priceAfterSale = material.getCost() * (1- 0.3);
+            }
+            else {
+                System.out.println("Sale 10%");
+                priceAfterSale = material.getCost() * (1- 0.1);
+            }
+            System.out.println(priceAfterSale);
+        } else {
+            int dueMonth = material.getExpiryDate().getMonthValue() - LocalDate.now().getMonthValue();
+            if (dueMonth <= 2) {
+                System.out.println("Sale 40%");
+                priceAfterSale = material.getCost() * (1 - 0.4);
+            } else if (dueMonth <= 4) {
+                System.out.println("Sale 20%");
+                priceAfterSale = material.getCost() * (1 - 0.2);
+            } else {
+                System.out.println("Sale 5%");
+                priceAfterSale = material.getCost() * (1 - 0.05);
+            }
+            System.out.println(priceAfterSale);
+        }
+        return priceAfterSale;
+    }
+
 }
