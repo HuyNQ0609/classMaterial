@@ -44,4 +44,19 @@ public class CrispyFlour extends Material {
                 + ", cost = " + cost
                 + ", quantity = " + quantity;
     }
+    public double getPriceAfterSale() {
+        int dueMonth = getExpiryDate().getMonthValue() - LocalDate.now().getMonthValue();
+        if (dueMonth <= 2) {
+            return getAmount() * (1 - 0.4);
+        } else if (dueMonth <= 4) {
+            return getAmount() * (1 - 0.2);
+        } else {
+            return getAmount() * (1 - 0.05);
+        }
+    }
+
+    @Override
+    public double getRealMoney(Material material) {
+        return 0;
+    }
 }

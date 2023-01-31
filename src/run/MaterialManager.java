@@ -1,38 +1,28 @@
 package run;
 
 import product.CrispyFlour;
-import product.Discount;
 import product.Material;
 import product.Meat;
 
 import java.time.LocalDate;
 import java.util.*;
 
-public class MaterialManager implements Discount {
+public class MaterialManager {
     List<Material> materials;
+    Scanner input = new Scanner(System.in);
 
     public MaterialManager() {
         materials = new ArrayList<>();
-        materials.add(new CrispyFlour("No.1", "name1",
-                LocalDate.now().plusMonths(5), 150, 25));
-        materials.add(new Meat("No.2", "name2",
-                LocalDate.now().plusDays(-1), 160, 2));
-        materials.add(new CrispyFlour("No.3", "name3",
-                LocalDate.now().plusMonths(7), 170, 24));
-        materials.add(new Meat("No.4", "name4",
-                LocalDate.now().plusDays(-2), 180, 2.5));
-        materials.add(new CrispyFlour("No.5", "name5",
-                LocalDate.now().plusMonths(1), 190, 23));
-        materials.add(new Meat("No.6", "name6",
-                LocalDate.now().plusDays(-3), 200, 3));
-        materials.add(new CrispyFlour("No.7", "name7",
-                LocalDate.now().plusMonths(1), 210, 22));
-        materials.add(new Meat("No.8", "name8",
-                LocalDate.now().plusDays(-5), 220, 3.5));
-        materials.add(new CrispyFlour("No.9", "name9",
-                LocalDate.now().plusMonths(1), 230, 21));
-        materials.add(new Meat("No.10", "name10",
-                LocalDate.now().plusDays(-1), 240, 4));
+        materials.add(new CrispyFlour("1", "name1", LocalDate.now().plusMonths(5), 150, 25));
+        materials.add(new CrispyFlour("2", "name3", LocalDate.now().plusMonths(4), 170, 24));
+        materials.add(new CrispyFlour("3", "name5", LocalDate.now().plusMonths(3), 190, 23));
+        materials.add(new CrispyFlour("4", "name7", LocalDate.now().plusMonths(2), 210, 22));
+        materials.add(new CrispyFlour("5", "name9", LocalDate.now().plusMonths(1), 230, 21));
+        materials.add(new Meat("6", "name2", LocalDate.now().plusDays(-1), 160, 2));
+        materials.add(new Meat("7", "name4", LocalDate.now().plusDays(-2), 180, 2.5));
+        materials.add(new Meat("8", "name6", LocalDate.now().plusDays(-3), 200, 3));
+        materials.add(new Meat("9", "name8", LocalDate.now().plusDays(-5), 220, 3.5));
+        materials.add(new Meat("10", "name10", LocalDate.now().plusDays(-1), 240, 4));
     }
     public void print() {
         for (Material material : materials) {
@@ -40,54 +30,36 @@ public class MaterialManager implements Discount {
         }
     }
 
-    public void deleteElements(String id) {
-        for (int i = 0; i < materials.size(); i++) {
-            if (id.equals(materials.get(i).getId())) {
-                materials.remove(i);
-            }
-        }
+    public int size() {
+        return materials.size();
     }
-    public void addElement(Material material) {
+
+    public void add(Material material) {
         materials.add(material);
     }
 
-    public void update(Material material1, int index) {
-        materials.add(index, material1);
+    public int getIndex() {
+        System.out.println("Enter the index: ");
+        return input.nextInt();
     }
 
-    public List<Material> getMaterials() {
-        return materials;
-    }
-
-    @Override
-    public double getRealMoney(Material material) {
-        double priceAfterSale = 0;
-        if (material instanceof Meat) {
-            int dueDate = material.getExpiryDate().getDayOfMonth() - LocalDate.now().getDayOfMonth();
-            if (dueDate <= 5) {
-                System.out.println("Sale 30%");
-                priceAfterSale = material.getCost() * (1- 0.3);
-            }
-            else {
-                System.out.println("Sale 10%");
-                priceAfterSale = material.getCost() * (1- 0.1);
-            }
-            System.out.println(priceAfterSale);
+    public void deleteElements() {
+        int index = getIndex();
+        if (index < 0 || index > size() - 1) {
+            System.out.println("Materials delete be added at this location!");
         } else {
-            int dueMonth = material.getExpiryDate().getMonthValue() - LocalDate.now().getMonthValue();
-            if (dueMonth <= 2) {
-                System.out.println("Sale 40%");
-                priceAfterSale = material.getCost() * (1 - 0.4);
-            } else if (dueMonth <= 4) {
-                System.out.println("Sale 20%");
-                priceAfterSale = material.getCost() * (1 - 0.2);
-            } else {
-                System.out.println("Sale 5%");
-                priceAfterSale = material.getCost() * (1 - 0.05);
-            }
-            System.out.println(priceAfterSale);
+            materials.remove(index);
         }
-        return priceAfterSale;
     }
 
+    public void addToIndex(Material material) {
+        int index = getIndex();
+        if(index < 0) {
+            System.out.println("Materials cannot be added at this location!");
+        } else if (index > size() - 1) {
+            add(material);
+        } else {
+            materials.add(index, material);
+        }
+    }
 }

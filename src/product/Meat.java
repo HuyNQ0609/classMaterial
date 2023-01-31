@@ -40,11 +40,26 @@ public class Meat extends Material {
 
     @Override
     public String toString() {
-        return "Meat: : "
+        return "Meat: "
                 + "id = " + id
                 + ", name = " + name
                 + ", manufacturingDate = " + manufacturingDate
                 + ", cost = " + cost
                 + ", weight = " + weight;
+    }
+
+    public double getPriceAfterSale() {
+        int dueDate = getExpiryDate().getDayOfMonth() - LocalDate.now().getDayOfMonth();
+        if (dueDate <= 5) {
+            return getAmount() * (1- 0.3);
+        }
+        else {
+            return getAmount() * (1- 0.1);
+        }
+    }
+
+    @Override
+    public double getRealMoney(Material material) {
+        return 0;
     }
 }

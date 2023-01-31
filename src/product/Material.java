@@ -1,11 +1,11 @@
 package product;
 
 import java.time.LocalDate;
-public abstract class Material {
-    String id;
-    String name;
-    LocalDate manufacturingDate;
-    int cost;
+public abstract class Material implements Discount {
+    protected String id;
+    protected String name;
+    protected LocalDate manufacturingDate;
+    protected int cost;
 
     public Material() {
 
@@ -52,4 +52,6 @@ public abstract class Material {
     public abstract double getAmount();
 
     public abstract LocalDate getExpiryDate();
+
+    public abstract double getPriceAfterSale();
 }
