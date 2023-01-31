@@ -4,7 +4,7 @@ import product.Material;
 
 import java.time.LocalDate;
 
-public class Meat extends Material {
+public class Meat extends Material implements Discount {
     private double weight;
 
     public Meat() {
@@ -35,7 +35,7 @@ public class Meat extends Material {
 
     @Override
     public LocalDate getExpiryDate() {
-        return manufacturingDate.plusDays(7);
+        return manufacturingDate.plusWeeks(1);
     }
 
     @Override
@@ -47,19 +47,14 @@ public class Meat extends Material {
                 + ", cost = " + cost
                 + ", weight = " + weight;
     }
-
-    public double getPriceAfterSale() {
+    @Override
+    public double getRealMoney() {
         int dueDate = getExpiryDate().getDayOfMonth() - LocalDate.now().getDayOfMonth();
         if (dueDate <= 5) {
-            return getAmount() * (1- 0.3);
+            return getAmount() * (1 - 0.3);
         }
         else {
-            return getAmount() * (1- 0.1);
+            return getAmount() * (1 - 0.1);
         }
-    }
-
-    @Override
-    public double getRealMoney(Material material) {
-        return 0;
     }
 }

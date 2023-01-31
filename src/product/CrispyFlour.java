@@ -1,7 +1,7 @@
 package product;
 
 import java.time.LocalDate;
-public class CrispyFlour extends Material {
+public class CrispyFlour extends Material implements Discount {
     private int quantity;
 
     public CrispyFlour() {
@@ -44,7 +44,9 @@ public class CrispyFlour extends Material {
                 + ", cost = " + cost
                 + ", quantity = " + quantity;
     }
-    public double getPriceAfterSale() {
+
+    @Override
+    public double getRealMoney() {
         int dueMonth = getExpiryDate().getMonthValue() - LocalDate.now().getMonthValue();
         if (dueMonth <= 2) {
             return getAmount() * (1 - 0.4);
@@ -53,10 +55,5 @@ public class CrispyFlour extends Material {
         } else {
             return getAmount() * (1 - 0.05);
         }
-    }
-
-    @Override
-    public double getRealMoney(Material material) {
-        return 0;
     }
 }
