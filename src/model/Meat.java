@@ -1,15 +1,11 @@
-package product;
-
-import product.Material;
+package model;
 
 import java.time.LocalDate;
 
 public class Meat extends Material implements Discount {
     private double weight;
 
-    public Meat() {
-
-    }
+    public Meat() {}
 
     public Meat(double weight) {
         this.weight = weight;
@@ -30,22 +26,22 @@ public class Meat extends Material implements Discount {
 
     @Override
     public double getAmount() {
-        return cost * weight;
+        return getCost() * weight;
     }
 
     @Override
     public LocalDate getExpiryDate() {
-        return manufacturingDate.plusWeeks(1);
+        return getManufacturingDate().plusWeeks(1);
     }
 
     @Override
     public String toString() {
         return "Meat: "
-                + "id = " + id
-                + ", name = " + name
-                + ", manufacturingDate = " + manufacturingDate
-                + ", cost = " + cost
-                + ", weight = " + weight;
+                + "id = " + getId()
+                + ", name = " + getName()
+                + ", manufacturingDate = " + getManufacturingDate()
+                + ", cost = " + getCost()
+                + ", weight = " + getWeight();
     }
     @Override
     public double getRealMoney() {

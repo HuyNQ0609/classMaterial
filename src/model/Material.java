@@ -1,15 +1,13 @@
-package product;
+package model;
 
 import java.time.LocalDate;
 public abstract class Material {
-    protected String id;
-    protected String name;
-    protected LocalDate manufacturingDate;
-    protected int cost;
+    private String id;
+    private String name;
+    private LocalDate manufacturingDate;
+    private int cost;
 
-    public Material() {
-
-    }
+    public Material() {}
 
     public Material(String id, String name, LocalDate manufacturingDate, int cost) {
         this.id = id;

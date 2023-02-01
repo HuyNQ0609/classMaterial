@@ -1,4 +1,4 @@
-package product;
+package model;
 
 public interface Discount {
     double getRealMoney();
